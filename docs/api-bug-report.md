@@ -35,28 +35,28 @@
 
 ## BUG-API-002
 
-**Title:** Decimal dependants value returns 405 Method Not Allowed
+**Title:** API accepts undocumented extra properties despite schema restriction
 
-**Severity:** High  
-**Priority:** High  
-**Area:** Employees API – POST validation  
+**Severity:** Medium  
+**Priority:** Medium  
+**Area:** Employees API – Schema validation  
 
 **Steps to Reproduce:**
-1. Send POST /api/Employees with:
-   - `"dependants": 1.5`
+1. Send POST /api/Employees with an extra field:
+   - `"foo": "bar"`
 
 **Actual Result:**
-- Response status: 405 Method Not Allowed  
-- Response header: `Allow: GET`  
-- Empty response body  
+- Response status: 200 OK  
+- Employee is created successfully  
+- Extra field is ignored
 
 **Expected Result:**
-- Response status: 400 Bad Request  
-- Validation error message indicating invalid data type  
+- Request should fail  
+- Schema defines `additionalProperties: false`
 
 **Impact:**
-- Incorrect HTTP semantics
-- Indicates request is misrouted or improperly validated
+- API contract not enforced
+- Allows unexpected payloads
 
 ---
 
@@ -90,29 +90,28 @@
 
 ## BUG-API-004
 
-**Title:** API accepts undocumented extra properties despite schema restriction
+**Title:** Decimal dependants value returns 405 Method Not Allowed
 
-**Severity:** Medium  
-**Priority:** Medium  
-**Area:** Employees API – Schema validation  
+**Severity:** High  
+**Priority:** High  
+**Area:** Employees API – POST validation  
 
 **Steps to Reproduce:**
-1. Send POST /api/Employees with an extra field:
-   - `"foo": "bar"`
+1. Send POST /api/Employees with:
+   - `"dependants": 1.5`
 
 **Actual Result:**
-- Response status: 200 OK  
-- Employee is created successfully  
-- Extra field is ignored
+- Response status: 405 Method Not Allowed  
+- Response header: `Allow: GET`  
+- Empty response body  
 
 **Expected Result:**
-- Request should fail  
-- Schema defines `additionalProperties: false`
+- Response status: 400 Bad Request  
+- Validation error message indicating invalid data type  
 
 **Impact:**
-- API contract not enforced
-- Allows unexpected payloads
-
+- Incorrect HTTP semantics
+- Indicates request is misrouted or improperly validated
 ---
 
 ## BUG-API-005
@@ -261,6 +260,54 @@
 
 ---
 
+## BUG-API-011
+
+**Title:** GET by deleted or non-existing employee ID returns 200 with empty body instead of 404
+
+**Severity:** High  
+**Priority:** High  
+**Area:** Employees API – GET by ID
+
+**Steps to Reproduce:**
+1. Send GET /api/Employees/{id} using a valid UUID that does not exist or belongs to a deleted employee
+
+**Actual Result:**
+- Response status: 200 OK
+- Response body is empty 
+
+**Expected Result:**
+- Response status: 404 Not Found 
+
+**Impact:**
+- Incorrect HTTP semantics
+
+---
+
+## BUG-API-012
+
+**Title:** GET by ID with invalid UUID returns 500 and HTML error page instead of 400 validation error
+
+**Severity:** High  
+**Priority:** High  
+**Area:** Employees API – GET by ID
+
+**Steps to Reproduce:**
+1. Send GET /api/Employees/invalid
+
+**Actual Result:**
+- Response status: 500 Internal Server Error
+- API returns an HTML error page
+
+**Expected Result:**
+- Response status: 400 Bad Request
+
+**Impact:**
+- Incorrect HTTP semantics
+- Server-side exception caused by invalid client input
+- Exposes HTML error page behavior from an API endpoint
+
+---
+
 ## Observations
 
 ### Decimal Precision in Response
@@ -271,7 +318,7 @@
 
 **Note:**
 - Values are not rounded to 2 decimals
-- Likely acceptable if UI handles rounding
+- Acceptable if UI handles rounding
 
 ---
 

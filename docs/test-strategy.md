@@ -93,7 +93,6 @@ Not everything will be automated. Automation will focus on:
 - Add employee and validate row data, calculations
 - Edit employee and validate updated row data, calculations
 - Delete employee and validate removal
-- Negative tests around invalid dependent input or invalid save behavior
 
 ## Defect Reporting
 
@@ -105,5 +104,3 @@ Bugs found during testing will be documented in:
 ## Tooling 
 
 - Playwright with TypeScript for both UI and API
-- Markdown documentation in `docs/`
-- Environment variables for credentials, token, and base URLs

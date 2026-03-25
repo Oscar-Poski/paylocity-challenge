@@ -1,0 +1,19 @@
+{
+  "name": "paylocity-challenge",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test tests/api",
+    "test:ui": "playwright test tests/ui",
+    "test:headed": "playwright test tests/ui --headed",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.4.5"
+  }
+}
