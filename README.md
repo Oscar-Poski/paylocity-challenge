@@ -1,6 +1,7 @@
 # Paylocity Bug and Automation Challenge
 
 This repository contains a single Playwright + TypeScript project for both API and UI automation against the Paylocity Benefits Dashboard.
+**NOTE: UI and API bug reports can be found in `docs/`**
 
 ## Initial Structure
 
@@ -38,7 +39,7 @@ This repository contains a single Playwright + TypeScript project for both API a
 ## Environment Variables
 
 - `PAYLOCITY_BASE_URL`: API base URL including `/Prod`
-- `PAYLOCITY_UI_URL`: login page URL
+- `PAYLOCITY_UI_URL`: login page URL `/Prod/Account/Login`
 - `AUTH_API_PAYLOCITY`: raw auth token value used as `Authorization: Basic <token>`
 - `PAYLOCITY_USERNAME`: UI login username
 - `PAYLOCITY_PASSWORD`: UI login password
